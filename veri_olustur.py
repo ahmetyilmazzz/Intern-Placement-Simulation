@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def veri_seti_olustur(ogrenci_sayisi, firma_sayisi, tercih_sayisi=5, seed=46, prefix="proje"):
+def veri_seti_olustur(ogrenci_sayisi, firma_sayisi, tercih_sayisi=5, seed=46):
     if firma_sayisi > ogrenci_sayisi:
         raise ValueError("firma_sayisi, ogrenci_sayisi'ndan büyük olamaz (her firmaya en az 1 kontenjan veriyorsun).")
     if firma_sayisi < tercih_sayisi:
