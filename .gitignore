@@ -1,0 +1,8 @@
+*.exe
+python projesii 2025-2026.docx
+bin/
+dist/
+venv/
+__pycache__/
+.idea/
+*.spec
