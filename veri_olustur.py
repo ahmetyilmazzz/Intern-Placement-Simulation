@@ -34,10 +34,33 @@ def veri_seti_olustur(ogrenci_sayisi, firma_sayisi, tercih_sayisi=5, seed=46):
         columns=["Öğrenci", "GNO"] + [f"Tercih{j}" for j in range(1, tercih_sayisi + 1)]
     )
 
+    toplam_kontenjan = int(df_firmalar["Kontenjan"].sum())
+    ogrenci_adedi = len(df_ogrenciler)
+
+    if toplam_kontenjan < ogrenci_adedi:
+        fark = (ogrenci_adedi - toplam_kontenjan) + 10
+
+        secimler = rng.integers(0, firma_sayisi, size=fark)  # firma indexleri
+        artis = np.bincount(secimler, minlength=firma_sayisi)
+
+        df_firmalar["Kontenjan"] += artis
+
+        if "Kalan_Kontenjan" not in df_firmalar.columns:
+            df_firmalar["Kalan_Kontenjan"] = df_firmalar["Kontenjan"]
+        else:
+            df_firmalar["Kalan_Kontenjan"] += artis
+    else:
+        if "Kalan_Kontenjan" not in df_firmalar.columns:
+            df_firmalar["Kalan_Kontenjan"] = df_firmalar["Kontenjan"]
+
     df_firmalar.to_csv("proje_firmalar.csv", index=False, encoding="utf-8-sig")
     df_ogrenciler.to_csv("proje_ogrenciler.csv", index=False, encoding="utf-8-sig")
 
-    print("Oluşturuldu: proje_firmalar.csv ve proje_ogrenciler.csv\n" + "Toplam kontenjan:", int(df_firmalar["Kontenjan"].sum()))
+    print(
+        "Oluşturuldu: proje_firmalar.csv ve proje_ogrenciler.csv\n"
+        + "Toplam kontenjan: "
+        + str(int(df_firmalar["Kontenjan"].sum()))
+    )
 
     return df_firmalar, df_ogrenciler
 
